@@ -101,7 +101,7 @@
 								</div>
 								<p>
 									<input type="submit" value="submit"
-										class="btn btn-block btn-success" id="submit1" />
+										class="btn btn-block btn-success" />
 								</p>
 							</form>
 							<!-- main form create from scratch -->
@@ -110,50 +110,30 @@
 
 						<c:if test="${pageContext.request.method=='POST'}">
 							<c:catch var="exception">
-								<sql:transaction dataSource="${dataSource}">
-									<sql:update var="updatedTable1">                                
+							<sql:transaction dataSource="${dataSource}">	
+							<sql:update  var="updatedTable1">                                
 									
 									INSERT INTO learnit_content (tutorial_content,tutorial_subheading) VALUES (?, ?)   
                                     <sql:param value="${param.ctname}" />
-										<sql:param value="${param.stname}" />
+									<sql:param value="${param.stname}" />
+								
+								</sql:update>
 
-									</sql:update>
-
-									<sql:update var="updatedTable2">
+								<sql:update  var="updatedTable2">
                                 
 									INSERT INTO tutorial_index(tutorial_name,tutorial_subheading) VALUES (?, ?)   
                                     <sql:param value="${param.tname}" />
-										<sql:param value="${param.stname}" />
+									<sql:param value="${param.stname}" />
 
-									</sql:update>
-								</sql:transaction>
-								<c:if test="${updatedTable1>=1&&updatedTable2>=1}">
-									<div id="messageNewTopic" class="modal fade" role="dialog">
-										<div class="modal-dialog">
-
-											<!-- Modal content-->
-											<div class="modal-content">
-												<div class="modal-header">
-													<button type="button" class="close" data-dismiss="modal">&times;</button>
-													<h4 class="modal-title">Modal Header</h4>
-												</div>
-												<div class="modal-body">
-
-													<font size="5" color='green'> Congratulations ! Data
-														inserted successfully.</font>
-
-												</div>
-												<div class="modal-footer">
-													<button type="button" class="btn btn-default"
-														data-dismiss="modal">Close</button>
-												</div>
-											</div>
-
-										</div>
-									</div>
+								</sql:update>
+                           </sql:transaction>
+                           
+                           
+								<c:if test="${updatedTable1>=1&&updatedTable2>=1}"><script>alert(" Congratulations ! Data inserted successfully.");</script>
+									
 								</c:if>
-
-
+							
+							
 							</c:catch>
 							<c:if test="${exception!=null}">
 								<c:out value="Unable to insert data in database." />
